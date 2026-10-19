@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Categorias - BiblioTec</title>
+</head>
+<body>
+<h1>Lista de Categorias</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Descrição</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="categoria : ${categorias}">
+    <td th:text="${categoria.id}"></td>
+    <td th:text="${categoria.nome}"></td>
+    <td th:text="${categoria.descricao}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
