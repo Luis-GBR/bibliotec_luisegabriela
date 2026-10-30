@@ -7,12 +7,17 @@
 <body>
 <h1>Lista de Categorias</h1>
 
+<p class="barra">
+  <a class="botao" th:href="@{/categorias/nova}">Nova categoria</a>
+</p>
+
 <table border="1">
   <thead>
   <tr>
     <th>ID</th>
     <th>Nome</th>
     <th>Descrição</th>
+    <th>Ações</th>
   </tr>
   </thead>
   <tbody>
@@ -20,6 +25,23 @@
     <td th:text="${categoria.id}"></td>
     <td th:text="${categoria.nome}"></td>
     <td th:text="${categoria.descricao}"></td>
+    <td>
+    <td>
+      <a th:href="@{/categorias/{id}/editar(id=${categoria.id})}">
+        Editar
+      </a>
+
+      <form th:action="@{/categorias/{id}/excluir(id=${categoria.id})}"
+            method="post"
+            style="display:inline;">
+        <button type="submit"
+                th:data-nome="${categoria.nome}"
+                onclick="return confirm('Deseja excluir esta categoria?')">
+          Excluir
+        </button>
+      </form>
+    </td>
+    </td>
   </tr>
   </tbody>
 </table>
