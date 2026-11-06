@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categoria | BiblioTec</title>
     <link rel="stylesheet" th:href="@{/css/categorias.css}"
-          href="../../static/css/categorias.css">
+          href="../../static/static/categorias.css">
 </head>
 <body>
 <h1 th:text="${categoria.id == null ? 'Nova categoria' : 'Editar categoria'}">
@@ -18,10 +18,14 @@
     <input type="hidden" th:field="*{id}">
 
     <label for="nome">Nome</label>
-    <input type="text" th:field="*{nome}" maxlength="60" required>
+    <input type="text" th:field="*{nome}" th:errorclass="campo-erro">
+    <p class="erro" th:if="${#fields.hasErrors('nome')}"
+       th:errors="*{nome}">Erro no nome</p>
 
     <label for="descricao">Descrição</label>
-    <input type="text" th:field="*{descricao}">
+    <input type="text" th:field="*{descricao}" th:errorclass="campo-erro">
+    <p class="erro" th:if="${#fields.hasErrors('descricao')}"
+       th:errors="*{descricao}">Erro na descrição</p>
 
     <div class="acoes">
         <button type="submit" class="botao">Salvar</button>
