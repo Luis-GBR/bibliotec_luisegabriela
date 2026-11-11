@@ -6,6 +6,7 @@ import br.escola.bibliotec.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LivroService {
@@ -18,6 +19,27 @@ public class LivroService {
 
     public List<Livro> listarTodos() {
         return livroRepository.findAllByOrderByTituloAsc();
+    }
+
+    public List<Livro> buscar(String titulo) {
+        if (titulo == null || titulo.isBlank()) {
+            return listarTodos();
+        }
+
+        return livroRepository.findByTituloContainingIgnoreCaseOrderByTituloAsc(titulo.trim());
+    }
+    public boolean isbnJaExiste(Livro livro) {
+        Optional<Livro> encontrado = livroRepository.findByIsbn(livro.getIsbn());
+
+        return encontrado.isPresent()
+                && !encontrado.get().getId().equals(livro.getId());
+    }
+    public Optional<Livro> buscarPorId(Long id) {
+        return livroRepository.findById(id);
+    }
+
+    public void excluir(Long id) {
+        livroRepository.deleteById(id);
     }
 
     public void salvar(Livro livro) {
@@ -35,4 +57,3 @@ public class LivroService {
         livroRepository.save(livro);
     }
 }
-

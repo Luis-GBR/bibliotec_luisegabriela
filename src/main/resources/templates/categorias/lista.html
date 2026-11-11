@@ -17,6 +17,12 @@
   Mensagem
 </p>
 
+<p class="mensagem mensagem-erro"
+   th:if="${erro}"
+   th:text="${erro}">
+  Erro
+</p>
+
 <p class="barra">
   <a class="botao" th:href="@{/categorias/nova}">
     Nova categoria

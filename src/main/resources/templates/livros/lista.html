@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Livros | BiblioTec</title>
@@ -13,12 +14,26 @@
     <a class="botao botao-secundario" th:href="@{/categorias}">Categorias</a>
 </p>
 
+<form class="busca" th:action="@{/livros}" method="get">
+    <input type="text"
+           name="titulo"
+           placeholder="Digite o título do livro"
+           th:value="${titulo}">
+
+    <button type="submit" class="botao">Buscar</button>
+
+    <a class="botao botao-secundario" th:href="@{/livros}">
+        Limpar
+    </a>
+</form>
+
 <p class="mensagem" th:if="${mensagem}" th:text="${mensagem}">
     Mensagem
 </p>
 
 <table>
     <caption>Livros cadastrados no BiblioTec</caption>
+
     <thead>
     <tr>
         <th scope="col">ID</th>
@@ -27,6 +42,7 @@
         <th scope="col">ISBN</th>
         <th scope="col">Categoria</th>
         <th scope="col">Disponíveis</th>
+        <th scope="col">Ações</th>
     </tr>
     </thead>
 
@@ -37,13 +53,44 @@
         <td th:text="${livro.autor}">Autor de exemplo</td>
         <td th:text="${livro.isbn}">9780000000000</td>
         <td th:text="${livro.categoria.nome}">Categoria</td>
+
         <td th:text="|${livro.quantidadeDisponivel} de ${livro.quantidadeTotal}|">
             3 de 3
+        </td>
+
+        <td>
+            <a class="botao"
+               th:href="@{/livros/{id}/editar(id=${livro.id})}">
+                Editar
+            </a>
+
+            <form th:action="@{/livros/{id}/excluir(id=${livro.id})}"
+                  method="post"
+                  th:attr="data-titulo=${livro.titulo}"
+                  onsubmit="return confirmarExclusao(this)">
+
+                <button type="submit" class="botao botao-secundario">
+                    Excluir
+                </button>
+            </form>
+        </td>
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(livros)}">
+        <td colspan="7" class="vazio">
+            Nenhum livro encontrado.
         </td>
     </tr>
     </tbody>
 </table>
 
+<script>
+    function confirmarExclusao(formulario) {
+        const titulo = formulario.dataset.titulo;
+
+        return confirm(`Tem certeza que deseja excluir o livro "${titulo}"?`);
+    }
+</script>
 
 </body>
 </html>

@@ -89,4 +89,10 @@ h1 {
         border-color: #b3402a;
         background: #fdf1ef;
     }
+
+    .mensagem.mensagem-erro {
+        color: #b3402a;
+        background: #fdf1ef;
+        border-left-color: #b3402a;
+    }
 }

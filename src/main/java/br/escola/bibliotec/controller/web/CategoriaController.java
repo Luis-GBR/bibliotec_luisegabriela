@@ -82,6 +82,15 @@ public class CategoriaController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes) {
 
+        if (categoriaService.possuiLivros(id)) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Não é possível excluir: existem livros nesta categoria."
+            );
+
+            return "redirect:/categorias";
+        }
+
         categoriaService.excluir(id);
         redirectAttributes.addFlashAttribute(
                 "mensagem", "Categoria excluída."
@@ -90,4 +99,3 @@ public class CategoriaController {
         return "redirect:/categorias";
     }
 }
-

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -28,8 +30,9 @@ public class LivroController {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("livros", livroService.listarTodos());
+    public String listar(@RequestParam(required = false) String titulo, Model model) {
+        model.addAttribute("livros", livroService.buscar(titulo));
+        model.addAttribute("titulo", titulo);
         return "livros/lista";
     }
 
@@ -41,6 +44,28 @@ public class LivroController {
         return formulario(model);
     }
 
+    @GetMapping("/{id}/editar")
+    public String editar(@PathVariable Long id, Model model,
+                         RedirectAttributes redirectAttributes) {
+        var livro = livroService.buscarPorId(id);
+
+        if (livro.isEmpty()) {
+            redirectAttributes.addFlashAttribute("mensagem", "Livro não encontrado!");
+            return "redirect:/livros";
+        }
+
+        model.addAttribute("livro", livro.get());
+        return formulario(model);
+    }
+
+    @PostMapping("/{id}/excluir")
+    public String excluir(@PathVariable Long id,
+                          RedirectAttributes redirectAttributes) {
+        livroService.excluir(id);
+        redirectAttributes.addFlashAttribute("mensagem", "Livro excluído com sucesso!");
+        return "redirect:/livros";
+    }
+
     @PostMapping
     public String salvar(@Valid @ModelAttribute("livro") Livro livro,
                          BindingResult resultado,
@@ -50,6 +75,11 @@ public class LivroController {
         if (livro.getCategoria() == null || livro.getCategoria().getId() == null) {
             resultado.rejectValue("categoria.id", "categoria.obrigatoria",
                     "Escolha uma categoria");
+        }
+
+        if (livroService.isbnJaExiste(livro)) {
+            resultado.rejectValue("isbn", "isbn.duplicado",
+                    "Já existe um livro com este ISBN");
         }
 
         if (resultado.hasErrors()) {
@@ -66,4 +96,3 @@ public class LivroController {
         return "livros/form";
     }
 }
-

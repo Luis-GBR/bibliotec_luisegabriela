@@ -1,61 +1,72 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Livros | BiblioTec</title>
+    <title>Cadastro de Livro | BiblioTec</title>
 </head>
 <body>
 
-<h1 th:text="${livro.id == null ? 'Novo livro' : 'Editar livro'}">
-    Novo livro
-</h1>
+<h1>Cadastro de Livro</h1>
 
-<form class="formulario" th:action="@{/livros}" th:object="${livro}" method="post">
+<form th:action="@{/livros}" th:object="${livro}" method="post">
 
     <input type="hidden" th:field="*{id}">
 
-    <label for="titulo">Título</label>
-    <input type="text" id="titulo" th:field="*{titulo}" th:errorclass="campo-erro">
-    <p class="erro" th:if="${#fields.hasErrors('titulo')}"
-       th:errors="*{titulo}">Erro no título</p>
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" th:field="*{titulo}">
+    <p th:if="${#fields.hasErrors('titulo')}"
+       th:errors="*{titulo}">
+        Erro no título
+    </p>
 
-    <label for="autor">Autor</label>
-    <input type="text" id="autor" th:field="*{autor}" th:errorclass="campo-erro">
-    <p class="erro" th:if="${#fields.hasErrors('autor')}"
-       th:errors="*{autor}">Erro no autor</p>
+    <label for="autor">Autor:</label>
+    <input type="text" id="autor" th:field="*{autor}">
+    <p th:if="${#fields.hasErrors('autor')}"
+       th:errors="*{autor}">
+        Erro no autor
+    </p>
 
-    <label for="isbn">ISBN (13 dígitos)</label>
-    <input type="text" id="isbn" th:field="*{isbn}" th:errorclass="campo-erro">
-    <p class="erro" th:if="${#fields.hasErrors('isbn')}"
-       th:errors="*{isbn}">Erro no ISBN</p>
+    <label for="isbn">ISBN:</label>
+    <input type="text" id="isbn" th:field="*{isbn}">
+    <p th:if="${#fields.hasErrors('isbn')}"
+       th:errors="*{isbn}">
+        Erro no ISBN
+    </p>
 
-    <label for="anoPublicacao">Ano de publicação (opcional)</label>
-    <input type="number" id="anoPublicacao" th:field="*{anoPublicacao}"
-           th:errorclass="campo-erro">
-    <p class="erro" th:if="${#fields.hasErrors('anoPublicacao')}"
-       th:errors="*{anoPublicacao}">Erro no ano</p>
+    <label for="anoPublicacao">Ano de publicação:</label>
+    <input type="number" id="anoPublicacao" th:field="*{anoPublicacao}">
+    <p th:if="${#fields.hasErrors('anoPublicacao')}"
+       th:errors="*{anoPublicacao}">
+        Erro no ano
+    </p>
 
-    <label for="quantidadeTotal">Quantidade de exemplares</label>
-    <input type="number" id="quantidadeTotal" th:field="*{quantidadeTotal}"
-           th:errorclass="campo-erro">
-    <p class="erro" th:if="${#fields.hasErrors('quantidadeTotal')}"
-       th:errors="*{quantidadeTotal}">Erro na quantidade</p>
+    <label for="quantidadeTotal">Quantidade total:</label>
+    <input type="number" id="quantidadeTotal" th:field="*{quantidadeTotal}">
+    <p th:if="${#fields.hasErrors('quantidadeTotal')}"
+       th:errors="*{quantidadeTotal}">
+        Erro na quantidade
+    </p>
 
-    <label for="categoria">Categoria</label>
-    <select id="categoria" th:field="*{categoria.id}" th:errorclass="campo-erro">
-        <option value="">Selecione...</option>
-        <option th:each="c : ${categorias}"
-                th:value="${c.id}"
-                th:text="${c.nome}">Romance</option>
+    <label for="categoria">Categoria:</label>
+    <select id="categoria" th:field="*{categoria.id}">
+        <option value="">Selecione uma categoria</option>
+        <option th:each="categoria : ${categorias}"
+                th:value="${categoria.id}"
+                th:text="${categoria.nome}">
+        </option>
     </select>
 
-    <p class="erro" th:if="${#fields.hasErrors('categoria.id')}"
-       th:errors="*{categoria.id}">Erro na categoria</p>
+    <p th:if="${#fields.hasErrors('categoria.id')}"
+       th:errors="*{categoria.id}">
+        Erro na categoria
+    </p>
 
-    <div class="acoes">
-        <button type="submit" class="botao">Salvar</button>
-        <a class="botao botao-secundario" th:href="@{/livros}">Cancelar</a>
-    </div>
+    <button type="submit" class="botao">Salvar</button>
+
+    <a class="botao botao-secundario" th:href="@{/livros}">
+        Cancelar
+    </a>
 
 </form>
 

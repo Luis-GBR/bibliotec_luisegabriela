@@ -1,20 +1,26 @@
+
 package br.escola.bibliotec.service;
 
 import br.escola.bibliotec.model.Categoria;
 import br.escola.bibliotec.repository.CategoriaRepository;
+import br.escola.bibliotec.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
+    private final LivroRepository livroRepository;
 
-    public CategoriaService(CategoriaRepository categoriaRepository) {
+    public CategoriaService(
+            CategoriaRepository categoriaRepository,
+            LivroRepository livroRepository) {
         this.categoriaRepository = categoriaRepository;
+        this.livroRepository = livroRepository;
     }
 
     public List<Categoria> listarTodas() {
@@ -42,7 +48,12 @@ public class CategoriaService {
         }
 
         return categoriaRepository.findByNomeIgnoreCase(categoria.getNome().trim())
-                .filter(existente -> !Objects.equals(existente.getId(), categoria.getId()))
+                .filter(existente -> !Objects.equals(
+                        existente.getId(), categoria.getId()))
                 .isPresent();
+    }
+
+    public boolean possuiLivros(Long id) {
+        return livroRepository.existsByCategoriaId(id);
     }
 }
