@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Livros | BiblioTec</title>
+</head>
+<body>
+
+<h1>Livros da biblioteca</h1>
+
+<p class="barra">
+    <a class="botao" th:href="@{/livros/novo}">Novo livro</a>
+    <a class="botao botao-secundario" th:href="@{/categorias}">Categorias</a>
+</p>
+
+<p class="mensagem" th:if="${mensagem}" th:text="${mensagem}">
+    Mensagem
+</p>
+
+<table>
+    <caption>Livros cadastrados no BiblioTec</caption>
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Título</th>
+        <th scope="col">Autor</th>
+        <th scope="col">ISBN</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Disponíveis</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="livro : ${livros}">
+        <td th:text="${livro.id}">1</td>
+        <td th:text="${livro.titulo}">Título de exemplo</td>
+        <td th:text="${livro.autor}">Autor de exemplo</td>
+        <td th:text="${livro.isbn}">9780000000000</td>
+        <td th:text="${livro.categoria.nome}">Categoria</td>
+        <td th:text="|${livro.quantidadeDisponivel} de ${livro.quantidadeTotal}|">
+            3 de 3
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

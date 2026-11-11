@@ -75,4 +75,18 @@ h1 {
     color: #245c35;
     background: #dcebd2;
     border-left: 6px solid #356b45;
+
+    .formulario input[type=number],
+    .formulario select {
+        width: 100%;
+        padding: .55rem;
+        font: inherit;
+        border: 2px solid #8b5e3c;
+        background: #fff;
+    }
+
+    .formulario select.campo-erro {
+        border-color: #b3402a;
+        background: #fdf1ef;
+    }
 }
